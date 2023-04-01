@@ -11,3 +11,5 @@ difftool.prompt=false
 merge.tool=bc
 mergetool.bc.path=C:\Program Files\Beyond Compare 4\BComp.exe
 ```
+
+For tmux add this to bashrc: <code>alias tmux='tmux -2'</code>
