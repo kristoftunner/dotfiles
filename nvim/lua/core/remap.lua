@@ -53,6 +53,10 @@ end)
 vim.keymap.set("n", "<C-n>", "<cmd> NvimTreeToggle <CR>")
 vim.keymap.set("n", "<leader>e", "<cmd> NvimTreeFocus <CR>")
 
+-- bufferline remaps
+vim.keymap.set("n", "<C-]>", "<cmd> BufferLineCycleNext <CR>")
+vim.keymap.set("n", "<C-[>", "<cmd> BufferLineCyclePrev <CR>")
+
 -- nvterminal specific mappings
 require("nvterm").setup()
 
