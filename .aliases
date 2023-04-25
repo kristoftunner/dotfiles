@@ -1,1 +1,4 @@
 alias tmux='tmux -2'
+alias cdf='cd $(find . -type d -print | fzf)'
+alias vimf='vim $(fzf)'
+alias nvimf='nvim $(fzf)'
