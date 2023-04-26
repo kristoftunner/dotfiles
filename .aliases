@@ -1,5 +1,5 @@
 alias tmux='tmux -2'
-alias fzf="fzf --preview 'cat {}'"
+alias fzf="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'"
 alias cdf='cd $(find . -type d -print | fzf)'
 alias vimf='vim $(fzf)'
 alias nvimf='nvim $(fzf)'
