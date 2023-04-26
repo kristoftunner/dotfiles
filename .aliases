@@ -1,4 +1,6 @@
 alias tmux='tmux -2'
+alias fzf="fzf --preview 'cat {}'"
 alias cdf='cd $(find . -type d -print | fzf)'
 alias vimf='vim $(fzf)'
 alias nvimf='nvim $(fzf)'
+alias ssh='ssh -o ServerAliveInterval=60'
