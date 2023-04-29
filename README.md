@@ -12,4 +12,8 @@ merge.tool=bc
 mergetool.bc.path=C:\Program Files\Beyond Compare 4\BComp.exe
 ```
 
-For tmux add this to bashrc: <code>alias tmux='tmux -2'</code>
+## Keyboard shortcuts
+Leader key for shortcuts per application:
+-Tiling window manager: `alt`
+-Vim: `ctrl`
+
