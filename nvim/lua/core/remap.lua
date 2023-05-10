@@ -18,6 +18,9 @@ vim.keymap.set("n", "<leader>svwm", function()
     require("vim-with-me").StopVimWithMe()
 end)
 
+-- because of the windows terminal
+vim.keymap.set("n", "q", "<C-v>")
+
 -- greatest remap ever
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
