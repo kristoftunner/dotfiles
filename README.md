@@ -11,7 +11,8 @@ difftool.prompt=false
 merge.tool=bc
 mergetool.bc.path=C:\Program Files\Beyond Compare 4\BComp.exe
 ```
-
+## Neovim config
+For neovim config first remove package configs in `packer.lua` and `remap.lua` and after that add the packages and do the `PackerSync`, otherwise you will get weird lua errors from neovim
 ## Keyboard shortcuts
 Leader key for shortcuts per application:
 -Tiling window manager: `alt`
