@@ -1,0 +1,8 @@
+[user]                                                                                                                                                                                 
+        name = kitu                                                                                                                                                                    
+        email = kristoftunner95@gmail.com                                                                                                                                              
+[alias]                                                                                                                                                                                
+        co = checkout                                                                                                                                                                  
+        cm = commit                                                                                                                                                                    
+        br = branch                                                                                                                                                                    
+        st = status 
