@@ -62,6 +62,10 @@ vim.keymap.set("n", "<leader>e", "<cmd> NvimTreeFocus <CR>")
 vim.keymap.set("n", "<leader>k", "<cmd> BufferLineCycleNext <CR>")
 vim.keymap.set("n", "<leader>j", "<cmd> BufferLineCyclePrev <CR>")
 
+-- diffview remaps
+vim.keymap.set("n", "<leader>do", "<cmd> DiffviewOpen <CR>")
+vim.keymap.set("n", "<leader>dc", "<cmd> DiffviewClose <CR>")
+
 -- nvterminal specific mappings
 require("nvterm").setup()
 
