@@ -36,6 +36,7 @@ return require('packer').startup(function(use)
 
 
   use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
+  use ("sindrets/diffview.nvim")
   use("nvim-treesitter/playground")
   use("mbbill/undotree")
   use("nvim-treesitter/nvim-treesitter-context");
@@ -99,4 +100,6 @@ return require('packer').startup(function(use)
     requires = 'nvim-tree/nvim-web-devicons'
   }
 
+  use   'lewis6991/gitsigns.nvim'
 end)
+
