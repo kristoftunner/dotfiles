@@ -65,6 +65,8 @@ vim.keymap.set("n", "<leader>j", "<cmd> BufferLineCyclePrev <CR>")
 -- diffview remaps
 vim.keymap.set("n", "<leader>do", "<cmd> DiffviewOpen <CR>")
 vim.keymap.set("n", "<leader>dc", "<cmd> DiffviewClose <CR>")
+vim.keymap.set("n", "<leader>gp", "<cmd> Gitsigns preview_hunk<CR>")
+vim.keymap.set("n", "<leader>gd", "<cmd> Git diffthis<CR>")
 
 -- nvterminal specific mappings
 require("nvterm").setup()
