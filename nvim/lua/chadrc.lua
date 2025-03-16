@@ -20,5 +20,5 @@ M.base46 = {
 --          lazyload = false
 --      }
 --}
-
+M.mappings = require "mappings"
 return M
