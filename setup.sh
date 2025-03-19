@@ -18,7 +18,16 @@ sudo apt update
 sudo apt install install tmux -y
 cp ./.tmux.conf ~/.tmux.conf
 
-echo "installing neovim"
+echo "Installing yazi"
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+rustup update
+cargo install --locked yazi-fm yazi-cli
+
+mkdir ~/.config/yazi
+git clone https://github.com/yazi-rs/flavors.git ~/.config/yazi/flavors
+cp ./theme.toml ~/.config/yazi/
+
+echo "Installing neovim"
 sudo apt remove nvim
 wget -o $HOME/.local/bin/nvim https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-x86_64.appimage
 chmod +x ~/.local/bin/nvim
