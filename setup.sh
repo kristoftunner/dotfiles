@@ -20,6 +20,7 @@ cp ./.tmux.conf ~/.tmux.conf
 
 echo "installing neovim"
 sudo apt remove nvim
-wget $HOME/.local/bin/nvim https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-x86_64.appimage
+wget -o $HOME/.local/bin/nvim https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-x86_64.appimage
+chmod +x ~/.local/bin/nvim
 nvim ~/.config/nvim
 echo "Make sure to update neovim plugins with Lazy and install LSP from Mason"
