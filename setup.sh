@@ -16,6 +16,7 @@ cp ./.vimrc ~/.vimrc
 echo "Installing tmux"
 sudo apt update
 sudo apt install install tmux -y
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 cp ./.tmux.conf ~/.tmux.conf
 
 echo "Installing yazi"

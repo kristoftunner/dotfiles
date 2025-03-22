@@ -78,7 +78,7 @@ return {
     "williamboman/mason-lspconfig",
     config = function(_, opts)
       require("mason-lspconfig").setup{
-        ensure_installed = {"clangd", "ruff", "lua_ls", "mypy", "clang-format"}
+        ensure_installed = {"clangd", "ruff", "lua_ls", "mypy", "clang-format", "black"}
       }
     end,
   },
