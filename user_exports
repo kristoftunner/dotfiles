@@ -1,0 +1,2 @@
+# needed for yazi
+export EDITOR=nvim
