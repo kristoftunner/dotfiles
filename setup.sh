@@ -28,6 +28,11 @@ mkdir ~/.config/yazi
 git clone https://github.com/yazi-rs/flavors.git ~/.config/yazi/flavors
 cp ./theme.toml ~/.config/yazi/
 
+echo "Installing aliases
+cp .aliases ~/.aliases
+echo "source ~/.aliases" >> ~/.bashrc
+echo "source ~/.aliases" >> ~/.zshrc
+
 echo "Installing neovim"
 sudo apt remove nvim
 wget -o $HOME/.local/bin/nvim https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-x86_64.appimage
