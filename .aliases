@@ -3,6 +3,7 @@ alias fzf="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {
 alias cdf='cd $(find . -type d -print | fzf)'
 alias vimf='vim $(fzf)'
 alias nvimf='nvim $(fzf)'
+alias fd=fdfind
 alias ssh='ssh -o ServerAliveInterval=60'
 alias tmuxa='tmux attach -t '
 alias pipi='python3 -m pip install'
