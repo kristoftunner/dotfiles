@@ -8,7 +8,8 @@ curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh 
 echo "removing neovim configs"
 rm -rf ~/.config/nvim
 rm -rf ~/.local/share/nvim
-cp -r ./nvim ~/.config/
+mkdir ~/.config
+cp -r ./nvim ~/.config/nvim
 
 echo "Installing vimrc"
 cp ./.vimrc ~/.vimrc
@@ -36,7 +37,8 @@ echo "source ~/.aliases" >> ~/.zshrc
 echo "Installing neovim"
 sudo apt remove nvim
 wget https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-x86_64.appimage
-mv nvim-linux-x86_64.appimage ~/.local/bin/
+mkdir ~/.local/bin
+mv nvim-linux-x86_64.appimage ~/.local/bin/nvim
 chmod +x ~/.local/bin/nvim
 nvim ~/.config/nvim
 echo "Make sure to update neovim plugins with Lazy and install LSP from Mason"
