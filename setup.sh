@@ -2,6 +2,11 @@ echo "Installing fzf"
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 
+cp exports ~/.exports
+echo "source ~/.exports" >> ~/.bashrc
+echo "export PATH=~/.local/bin:\$PATH" >> ~/.bashrc
+source ~/.bashrc
+
 echo "Installing zoxide"
 curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 
@@ -16,7 +21,7 @@ cp ./.vimrc ~/.vimrc
 
 echo "Installing tmux"
 sudo apt update
-sudo apt install install tmux fd-find -y
+sudo apt install install tmux fd-find libfuse2 -y
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 cp ./.tmux.conf ~/.tmux.conf
 
@@ -40,5 +45,6 @@ wget https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-x86_6
 mkdir ~/.local/bin
 mv nvim-linux-x86_64.appimage ~/.local/bin/nvim
 chmod +x ~/.local/bin/nvim
+
 nvim ~/.config/nvim
 echo "Make sure to update neovim plugins with Lazy and install LSP from Mason"
