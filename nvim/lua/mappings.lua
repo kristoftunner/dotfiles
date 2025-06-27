@@ -16,8 +16,6 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
--- because of the windows terminal
-vim.keymap.set("n", "q", "<C-v>")
 
 -- prevent esc from changing tabs
 --vim.keymap.set("n", "<Esc>", "<Nop>", {silent = true})
