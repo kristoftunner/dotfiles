@@ -44,6 +44,9 @@ vim.keymap.set("n", "<leader>gd", "<cmd> Git diffthis<CR>")
 
 vim.keymap.set('t', '<leader>tq', "<C-\\><C-n>",{silent = true})
 
+--lsp
+vim.keymap.set("n", "<leader>p", "<cmd> ClangdSwitchSourceHeader<CR>")
+
 -- TODO: add here 
 return {
   n = { ["<leader>gd"] = { "<cmd>Git diffthis<CR>", "Diffing this file" },},
