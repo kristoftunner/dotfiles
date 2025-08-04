@@ -12,3 +12,5 @@ alias gl='git log'
 alias gs='git status'
 alias gfo='git fetch origin'
 alias fzkill='ps aux | fzf --preview 'echo {}' | awk '{print $2}' | xargs kill -9'
+alias gdbattach='gdb -p $(ps aux | fzf --preview "echo {}" --preview-window=up:wrap | awk "{print \$2}")'
+
