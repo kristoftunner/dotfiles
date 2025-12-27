@@ -41,7 +41,7 @@ echo "source ~/.aliases" >> ~/.zshrc
 
 echo "Installing neovim"
 sudo apt remove nvim
-wget https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-x86_64.appimage
+wget https://github.com/neovim/neovim/releases/download/v0.11.5/nvim-linux-x86_64.appimage
 mkdir ~/.local/bin
 mv nvim-linux-x86_64.appimage ~/.local/bin/nvim
 chmod +x ~/.local/bin/nvim
