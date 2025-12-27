@@ -40,6 +40,7 @@ end)
 
 -- diffview remaps
 vim.keymap.set("n", "<leader>gp", "<cmd> Gitsigns preview_hunk<CR>")
+vim.keymap.set("n", "<leader>grh", "<cmd> Gitsigns reset_hunk<CR>")
 vim.keymap.set("n", "<leader>gd", "<cmd> Git diffthis<CR>")
 
 vim.keymap.set('t', '<leader>tq', "<C-\\><C-n>",{silent = true})
