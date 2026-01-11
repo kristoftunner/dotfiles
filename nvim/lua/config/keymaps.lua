@@ -18,4 +18,4 @@ map("n", "<leader>grh", "<cmd> Gitsigns reset_hunk<CR>")
 map("n", "<leader>gd", "<cmd> Git diffthis<CR>")
 
 -- LSP
-map("n", "<leader>p", "<cmd> ClangdSwitchSourceHeader<CR>", { desc = "Change header/source" })
+map("n", "<leader>p", "<cmd> LspClangdSwitchSourceHeader<CR>", { desc = "Change header/source" })
