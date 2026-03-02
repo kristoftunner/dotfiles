@@ -22,3 +22,8 @@ map("n", "<leader>gd", "<cmd> Git diffthis<CR>")
 
 -- LSP
 map("n", "<leader>p", "<cmd> LspClangdSwitchSourceHeader<CR>", { desc = "Change header/source" })
+
+-- getting rid of a weird lazyvim mapping
+map("n", "k", "k", { noremap = true, silent = true })
+map("n", "j", "j", { noremap = true, silent = true })
+
