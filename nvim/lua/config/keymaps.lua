@@ -14,6 +14,7 @@ map({ "n", "v" }, "<leader>d", [["_d]])
 
 map('n', '<Tab>', ':bnext<CR>')
 map('n', '<S-Tab>', ':bprevious<CR>')
+map("t", "<Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
 -- diffview remaps
 map("n", "<leader>gp", "<cmd> Gitsigns preview_hunk<CR>")
