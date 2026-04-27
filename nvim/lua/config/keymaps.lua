@@ -12,9 +12,11 @@ map({ "n", "v" }, "<leader>y", [["+y]])
 map("n", "<leader>Y", [["+Y]])
 map({ "n", "v" }, "<leader>d", [["_d]])
 
+map({ "n", "v" }, "<leader>d", [["_d]])
 map('n', '<Tab>', ':bnext<CR>')
 map('n', '<S-Tab>', ':bprevious<CR>')
 map("t", "<Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
+
 
 -- diffview remaps
 map("n", "<leader>gp", "<cmd> Gitsigns preview_hunk<CR>")
@@ -27,4 +29,3 @@ map("n", "<leader>p", "<cmd> LspClangdSwitchSourceHeader<CR>", { desc = "Change 
 -- getting rid of a weird lazyvim mapping
 map("n", "k", "k", { noremap = true, silent = true })
 map("n", "j", "j", { noremap = true, silent = true })
-
