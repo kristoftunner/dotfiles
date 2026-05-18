@@ -4,8 +4,8 @@ echo "Installing fzf"
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 
-cp exports ~/.exports
-echo "source ~/.exports" >> ~/.bashrc
+cp user_exports ~/.user_exports
+echo "source ~/.user_exports" >> ~/.bashrc
 echo "export PATH=~/.local/bin:\$PATH" >> ~/.bashrc
 source ~/.bashrc
 
