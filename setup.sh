@@ -29,7 +29,20 @@ cp ./.tmux.conf ~/.tmux.conf
 
 echo "Installing yazi"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source ~/.cargo/env
+
+echo "Updating Rust"
+if ! command -v rustup >/dev/null 2>&1; then
+  echo "Rust is not installed"
+  exit 1
+fi
 rustup update
+
+if ! command -v cargo >/dev/null 2>&1; then
+  echo "Cargo is not installed"
+  exit 1
+fi
+
 cargo install --locked yazi-fm yazi-cli
 
 mkdir ~/.config/yazi
