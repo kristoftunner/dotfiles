@@ -1,3 +1,5 @@
+#!/bin/bash
+set -exuo pipefail
 echo "Installing fzf"
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
@@ -20,8 +22,8 @@ echo "Installing vimrc"
 cp ./.vimrc ~/.vimrc
 
 echo "Installing tmux"
-sudo apt update
-sudo apt install install tmux fd-find libfuse2 xclip -y
+apt update
+apt install install tmux fd-find libfuse2 xclip -y
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 cp ./.tmux.conf ~/.tmux.conf
 
