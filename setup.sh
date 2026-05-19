@@ -61,7 +61,7 @@ if [ ! -d ~/.local/bin ]; then
     mkdir -p ~/.local/bin
 fi
 mkdir ~/.local/bin/nvim-linux-x86_64
-if ! tar -xzf ~/.local/bin/nvim-linux-x86_64.tar.gz -C ~/.local/bin/nvim-linux-x86_64; then
+if ! tar -xzf ~/.local/bin/nvim-linux-x86_64.tar.gz -C ~/.local/bin/; then
     echo "Failed to extract nvim tar.gz"
     exit 1
 fi
