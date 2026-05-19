@@ -62,6 +62,11 @@ if [ ! -d ~/.local/bin ]; then
 fi
 mv nvim-linux-x86_64.appimage ~/.local/bin/nvim
 chmod +x ~/.local/bin/nvim
+if ! ~/.local/bin/nvim --appimage-extract; then
+    echo "Failed to extract nvim AppImage"
+    exit 1
+fi
+ln -s ~/.local/bin/squashfs-root/usr/bin ~/.local/bin/nvim
 
 if ! command -v python3 >/dev/null 2>&1; then
     echo "Python is not installed"
