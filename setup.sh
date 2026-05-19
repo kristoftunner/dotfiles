@@ -57,9 +57,15 @@ echo "source ~/.aliases" >> ~/.zshrc
 echo "Installing neovim"
 sudo apt remove nvim
 wget https://github.com/neovim/neovim/releases/download/v0.11.5/nvim-linux-x86_64.appimage
-mkdir ~/.local/bin
+if [ ! -d ~/.local/bin ]; then
+    mkdir -p ~/.local/bin
+fi
 mv nvim-linux-x86_64.appimage ~/.local/bin/nvim
 chmod +x ~/.local/bin/nvim
 
-nvim ~/.config/nvim
-echo "Make sure to update neovim plugins with Lazy and install LSP from Mason"
+if ! command -v python3 >/dev/null 2>&1; then
+    echo "Python is not installed"
+    exit 1
+fi
+
+python3 -m pip install gdown
