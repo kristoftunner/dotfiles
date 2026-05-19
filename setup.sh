@@ -73,4 +73,12 @@ if ! command -v python3 >/dev/null 2>&1; then
     exit 1
 fi
 
-python3 -m pip install gdown
+# installing tools for ai dev
+python3 -m pip install gdown wandb dvc
+if curl -LsSf https://hf.co/cli/install.sh | bash; then
+    echo "Hugging Face CLI installed successfully."
+else
+    echo "Failed to install Hugging Face CLI."
+    exit 1
+fi
+
