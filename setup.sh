@@ -43,7 +43,7 @@ if ! command -v cargo >/dev/null 2>&1; then
   exit 1
 fi
 
-cargo install --locked yazi-fm yazi-cli
+cargo install --force yazi-build
 
 mkdir ~/.config/yazi
 git clone https://github.com/yazi-rs/flavors.git ~/.config/yazi/flavors
