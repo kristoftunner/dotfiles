@@ -56,17 +56,17 @@ echo "source ~/.aliases" >> ~/.zshrc
 
 echo "Installing neovim"
 sudo apt remove nvim
-wget https://github.com/neovim/neovim/releases/download/v0.11.5/nvim-linux-x86_64.appimage
+wget https://github.com/neovim/neovim/releases/download/v0.11.5/nvim-linux-x86_64.tar.gz -O ~/.local/bin/nvim-linux-x86_64.tar.gz
 if [ ! -d ~/.local/bin ]; then
     mkdir -p ~/.local/bin
 fi
-mv nvim-linux-x86_64.appimage ~/.local/bin/nvim
-chmod +x ~/.local/bin/nvim
-if ! ~/.local/bin/nvim --appimage-extract; then
-    echo "Failed to extract nvim AppImage"
+mkdir ~/.local/bin/nvim-linux-x86_64
+if ! tar -xzf ~/.local/bin/nvim-linux-x86_64.tar.gz -C ~/.local/bin/nvim-linux-x86_64; then
+    echo "Failed to extract nvim tar.gz"
     exit 1
 fi
-ln -s ~/.local/bin/squashfs-root/usr/bin ~/.local/bin/nvim
+chmod +x ~/.local/bin/nvim-linux-x86_64/bin/nvim
+ln -s ~/.local/bin/nvim-linux-x86_64/bin/nvim ~/.local/bin/nvim
 
 if ! command -v python3 >/dev/null 2>&1; then
     echo "Python is not installed"
