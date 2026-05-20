@@ -1,6 +1,7 @@
 #!/bin/bash
 set -x
 echo "Installing fzf"
+echo "----- MOVE THIS PART TO THE END OF THE .bashrc FILE -----" >> ~/.bashrc
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 
@@ -53,6 +54,7 @@ echo "Installing aliases"
 cp .aliases ~/.aliases
 echo "source ~/.aliases" >> ~/.bashrc
 echo "source ~/.aliases" >> ~/.zshrc
+echo "----- UNTIL THIS PART -----" >> ~/.bashrc
 
 echo "Installing neovim"
 sudo apt remove nvim
