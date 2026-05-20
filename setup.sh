@@ -1,6 +1,7 @@
 #!/bin/bash
 set -x
 echo "Installing fzf"
+echo "" >> ~/.bashrc
 echo "#----- MOVE THIS PART TO THE END OF THE .bashrc FILE -----" >> ~/.bashrc
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
