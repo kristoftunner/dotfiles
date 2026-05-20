@@ -85,3 +85,7 @@ else
     exit 1
 fi
 
+if ! curl https://rclone.org/install.sh | bash; then
+    echo "Failed to install Rclone."
+    exit 1
+fi
