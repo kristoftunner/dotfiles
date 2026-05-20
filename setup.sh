@@ -25,7 +25,7 @@ cp ./.vimrc ~/.vimrc
 
 echo "Installing tmux"
 apt update
-apt install install tmux fd-find libfuse2 xclip -y
+apt install install tmux fd-find libfuse2 xclip nvtop -y
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 cp ./.tmux.conf ~/.tmux.conf
 
