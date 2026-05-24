@@ -1,6 +1,4 @@
-require("mason-lspconfig").setup({
-  ensure_installed = { "clangd" }
-})
+require("mason-lspconfig").setup()
 
 require("lspconfig").clangd.setup({
   cmd = { "clangd", "--background-index", "--clang-tidy" },
