@@ -24,8 +24,20 @@ map("n", "<leader>grh", "<cmd> Gitsigns reset_hunk<CR>")
 map("n", "<leader>gd", "<cmd> Git diffthis<CR>")
 
 -- LSP
-map("n", "<leader>p", "<cmd> LspClangdSwitchSourceHeader<CR>", { desc = "Change header/source" })
+map("n", "<leader>p", "<cmd> ClangdSwitchSourceHeader<CR>", { desc = "Change header/source" })
 
 -- getting rid of a weird lazyvim mapping
 map("n", "k", "k", { noremap = true, silent = true })
 map("n", "j", "j", { noremap = true, silent = true })
+
+-- DAP
+map("n", "<F5>", function() require("dap").continue() end, { desc = "Debug: Continue" })
+map("n", "<F10>", function() require("dap").step_over() end, { desc = "Debug: Step Over" })
+map("n", "<F11>", function() require("dap").step_into() end, { desc = "Debug: Step Into" })
+map("n", "<F12>", function() require("dap").step_out() end, { desc = "Debug: Step Out" })
+map("n", "<leader>db", function() require("dap").toggle_breakpoint() end, { desc = "Debug: Toggle Breakpoint" })
+map("n", "<leader>dB", function()
+  require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+end, { desc = "Debug: Conditional Breakpoint" })
+map("n", "<leader>dr", function() require("dap").repl.open() end, { desc = "Debug: Open REPL" })
+map("n", "<leader>du", function() require("dapui").toggle() end, { desc = "Debug: Toggle UI" })
