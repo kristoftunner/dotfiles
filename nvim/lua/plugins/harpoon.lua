@@ -49,6 +49,20 @@ return {
           desc = "Harpoon File 4",
         },
         {
+          "<leader>5",
+          function()
+            harpoon:list():select(5)
+          end,
+          desc = "Harpoon File 5",
+        },
+        {
+          "<leader>6",
+          function()
+            harpoon:list():select(6)
+          end,
+          desc = "Harpoon File 6",
+        },
+        {
           "<leader>hp",
           function()
             harpoon:list():prev()
