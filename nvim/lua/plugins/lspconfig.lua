@@ -1,33 +1,15 @@
-  --  "neovim/nvim-lspconfig",
-  --{
-  --},
-  --{
-  --  "mason-org/mason.nvim",
-  --  opts = {
-  --    -- disable automatic updates
-  --    automatic_installation = false,
-  --  },
-  --},
-  --{
-  --  "mason-org/mason-lspconfig.nvim",
-  --  dependencies = {
-  --    { "mason-org/mason.nvim", opts = {} },
-  --    "neovim/nvim-lspconfig",
-  --  },
-  --},
-    return {
-    -- Just override opts, LazyVim handles lazy loading
-    --{
-    --  "mason-org/mason-lspconfig.nvim",
-    --  opts = {
-    --    ensure_installed = { "clangd", "ruff", "lua_ls", "mypy", "clang-format", "black" },
-    --  },
-    --},
-    --{
-    --  "nvim-treesitter/nvim-treesitter",
-    --  opts = {
-    --    ensure_installed = { "vim", "lua", "vimdoc", "cpp", "python", "json" },
-    --  },
-    --},
-    -- Remove bare nvim-lspconfig and mason-org/mason.nvim entries — LazyVim owns those
-  }
+require("mason-lspconfig").setup({
+  ensure_installed = { "clangd" }
+})
+
+require("lspconfig").clangd.setup({
+  cmd = { "clangd", "--background-index", "--clang-tidy" },
+  on_attach = function(client, bufnr)
+    -- Keymaps
+    local opts = { buffer = bufnr }
+    vim.keymap.set("n", "<lender>ca", vim.lsp.buf.code_action, opts)
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename,   opts)
+  end
+})
+return {
+}
