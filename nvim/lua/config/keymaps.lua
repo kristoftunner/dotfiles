@@ -26,6 +26,13 @@ map("n", "<leader>gd", "<cmd> Git diffthis<CR>")
 -- LSP
 map("n", "<leader>p", "<cmd> ClangdSwitchSourceHeader<CR>", { desc = "Change header/source" })
 
+-- Formatting
+map("n", "=", function() require("conform").format({ async = true }) end, { desc = "Format" })
+map("v", "=", function()
+  require("conform").format({ async = true })
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
+end, { desc = "Format" })
+
 -- getting rid of a weird lazyvim mapping
 map("n", "k", "k", { noremap = true, silent = true })
 map("n", "j", "j", { noremap = true, silent = true })
