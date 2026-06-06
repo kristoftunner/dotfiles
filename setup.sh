@@ -57,9 +57,9 @@ fi
 
 echo "Installing aliases"
 cp $script_dir/.aliases ~/
-cp $script_dir/.bash_profile ~/
+cp $script_dir/.setup_tooling ~/
 echo "source ~/.aliases" >> ~/.bashrc
-echo "source ~/.bash_profle" >> ~/.bashrc
+echo "source ~/.setup_tooling" >> ~/.bashrc
 echo '. "$HOME/.atuin/bin/env"' >> ~/.bashrc
 
 echo "Installing neovim"
@@ -78,3 +78,13 @@ if [[ -d ~/.claude ]]; then
     mkdir -p ~/.claude
 fi
 cp $script_dir/claude/* ~/.claude/
+
+echo "Installing rtk"
+if ! curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh; then
+  echo "Failed to install rtk"
+  exit 1
+fi
+if ! rtk init -g; then
+  echo "Failed to initialize rtk"
+  exit 1
+fi
