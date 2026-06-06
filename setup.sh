@@ -56,4 +56,4 @@ if [[ -d ~/.claude ]]; then
     rm -rf ~/.claude
     mkdir -p ~/.claude
 fi
-cp $script_dir/claude/settings.json ~/.claude/settings.json
+cp $script_dir/claude/* ~/.claude/
