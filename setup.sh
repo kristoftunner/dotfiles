@@ -28,18 +28,39 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 cp $script_dir/.tmux.conf ~/.tmux.conf
 
 echo "Installing yazi"
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source ~/.cargo/env
+
+echo "Updating Rust"
+if ! command -v rustup >/dev/null 2>&1; then
+  echo "Rust is not installed"
+  exit 1
+fi
 rustup update
-cargo install --locked yazi-fm yazi-cli
+
+if ! command -v cargo >/dev/null 2>&1; then
+  echo "Cargo is not installed"
+  exit 1
+fi
+
+cargo install --force yazi-build
 
 mkdir ~/.config/yazi
 git clone https://github.com/yazi-rs/flavors.git ~/.config/yazi/flavors
 cp $script_dir/theme.toml ~/.config/yazi/
 
+echo "Install atuin"
+curl -LsSf https://setup.atuin.sh | sh -s -- --non-interactive
+if [ $? -ne 0 ]; then
+  echo "Failed to install autin"
+fi
+
 echo "Installing aliases"
-cp $script_dir/.aliases ~/.aliases
+cp $script_dir/.aliases ~/
+cp $script_dir/.bash_profile ~/
 echo "source ~/.aliases" >> ~/.bashrc
-echo "source ~/.aliases" >> ~/.zshrc
+echo "source ~/.bash_profle" >> ~/.bashrc
+echo '. "$HOME/.atuin/bin/env"' >> ~/.bashrc
 
 echo "Installing neovim"
 sudo apt remove nvim
