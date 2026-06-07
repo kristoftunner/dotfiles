@@ -12,7 +12,7 @@ echo "export PATH=~/.local/bin:\$PATH" >> ~/.bashrc
 source ~/.bashrc
 
 echo "Installing zoxide"
-curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh -s -- -y
 
 echo "removing neovim configs"
 rm -rf ~/.config/nvim
