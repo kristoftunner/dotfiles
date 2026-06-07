@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//etc/**)",
+      "Bash(python3 -m pip config debug)",
+      "Bash(pip config *)"
+    ]
+  }
+}
