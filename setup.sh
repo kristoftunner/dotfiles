@@ -69,7 +69,6 @@ mkdir ~/.local/bin
 mv nvim-linux-x86_64.appimage ~/.local/bin/nvim
 chmod +x ~/.local/bin/nvim
 
-nvim ~/.config/nvim
 echo "Make sure to update neovim plugins with Lazy and install LSP from Mason"
 
 echo "Installing Claude Code settings"
