@@ -29,28 +29,6 @@ apt install install tmux fd-find libfuse2 xclip nvtop btop -y
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 cp ./.tmux.conf ~/.tmux.conf
 
-echo "Installing yazi"
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-source ~/.cargo/env
-
-echo "Updating Rust"
-if ! command -v rustup >/dev/null 2>&1; then
-  echo "Rust is not installed"
-  exit 1
-fi
-rustup update
-
-if ! command -v cargo >/dev/null 2>&1; then
-  echo "Cargo is not installed"
-  exit 1
-fi
-
-cargo install --force yazi-build
-
-mkdir ~/.config/yazi
-git clone https://github.com/yazi-rs/flavors.git ~/.config/yazi/flavors
-cp ./theme.toml ~/.config/yazi/
-
 echo "Installing aliases"
 cp .aliases ~/.aliases
 echo "source ~/.aliases" >> ~/.bashrc
