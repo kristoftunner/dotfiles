@@ -34,23 +34,23 @@
         "matcher": "Bash"
       },
       {
-        "matcher": "Bash",
         "hooks": [
           {
-            "type": "command",
-            "command": "rtk hook claude"
+            "command": "rtk hook claude",
+            "type": "command"
           }
-        ]
+        ],
+        "matcher": "Bash"
       }
     ]
   },
+  "model": "sonnet",
   "permissions": {
     "allow": [
       "Bash(rtk *)",
       "Bash(uv *)"
     ]
   },
-  "model": "sonnet",
   "statusLine": {
     "command": "bash ~/.claude/statusline-command.sh",
     "type": "command"
