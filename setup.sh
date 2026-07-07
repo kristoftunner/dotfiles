@@ -6,6 +6,8 @@ echo "#----- MOVE THIS PART TO THE END OF THE .bashrc FILE -----" >> ~/.bashrc
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
 
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
 cp user_exports ~/.user_exports
 echo "source ~/.user_exports" >> ~/.bashrc
 echo "export PATH=~/.local/bin:\$PATH" >> ~/.bashrc
