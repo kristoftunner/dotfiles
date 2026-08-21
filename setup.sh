@@ -37,6 +37,8 @@ if ! command -v rustup >/dev/null 2>&1; then
   exit 1
 fi
 rustup update
+# used by the neovim lang.rust extra (rustaceanvim)
+rustup component add rust-analyzer
 
 if ! command -v cargo >/dev/null 2>&1; then
   echo "Cargo is not installed"
@@ -63,11 +65,17 @@ echo "source ~/.setup_tooling" >> ~/.bashrc
 echo '. "$HOME/.atuin/bin/env"' >> ~/.bashrc
 
 echo "Installing neovim"
-sudo apt remove nvim
-wget https://github.com/neovim/neovim/releases/download/v0.11.5/nvim-linux-x86_64.appimage
-mkdir ~/.local/bin
-mv nvim-linux-x86_64.appimage ~/.local/bin/nvim
+# LazyVim and the lang.rust extra require neovim >= 0.12
+NVIM_VERSION="v0.12.4"
+sudo apt remove -y neovim
+mkdir -p ~/.local/bin
+wget -O ~/.local/bin/nvim "https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/nvim-linux-x86_64.appimage"
 chmod +x ~/.local/bin/nvim
+
+if ! ~/.local/bin/nvim --version | head -1 | grep -qE 'v0\.(1[2-9]|[2-9][0-9])'; then
+  echo "Failed to install neovim >= 0.12"
+  exit 1
+fi
 
 echo "Make sure to update neovim plugins with Lazy and install LSP from Mason"
 

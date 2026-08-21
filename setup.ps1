@@ -20,6 +20,15 @@ function Install-ScoopApp {
     scoop install $Name
 }
 
+function Get-NvimVersion {
+    if (-not (Get-Command nvim -ErrorAction SilentlyContinue)) { return $null }
+    $line = nvim --version | Select-Object -First 1
+    if ($line -match 'v(\d+)\.(\d+)\.(\d+)') {
+        return [version]"$($Matches[1]).$($Matches[2]).$($Matches[3])"
+    }
+    return $null
+}
+
 Write-Host "Checking for scoop"
 if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
     Write-Host "Installing scoop"
@@ -61,6 +70,8 @@ Write-Host "Installing rustup"
 Install-ScoopApp -Name rustup -CheckCommand rustup
 if (Get-Command rustup -ErrorAction SilentlyContinue) {
     rustup update
+    # used by the neovim lang.rust extra (rustaceanvim)
+    rustup component add rust-analyzer
 }
 
 Write-Host "Installing atuin"
@@ -83,7 +94,24 @@ if ($null -eq $profileContent -or -not $profileContent.Contains($sourceLine)) {
 }
 
 Write-Host "Installing neovim"
-Install-ScoopApp -Name neovim -CheckCommand nvim
+# LazyVim and the lang.rust extra require neovim >= 0.12
+$minNvim = [version]'0.12.0'
+$nvimVersion = Get-NvimVersion
+if ($null -eq $nvimVersion) {
+    scoop install neovim
+} elseif ($nvimVersion -lt $minNvim) {
+    Write-Host "neovim $nvimVersion is older than $minNvim, updating"
+    scoop update neovim
+} else {
+    Write-Host "neovim $nvimVersion already installed, skipping"
+}
+
+# pick up the scoop shims if neovim was just installed in this session
+$env:PATH = [Environment]::GetEnvironmentVariable("PATH", "Machine") + ";" + [Environment]::GetEnvironmentVariable("PATH", "User")
+$nvimVersion = Get-NvimVersion
+if ($null -eq $nvimVersion -or $nvimVersion -lt $minNvim) {
+    throw "Failed to install neovim >= $minNvim (found: $nvimVersion)"
+}
 
 Write-Host "Make sure to update neovim plugins with Lazy and install LSP from Mason"
 
