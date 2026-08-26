@@ -9,6 +9,13 @@ return {
         objcpp = { "clang-format" },
         cuda = { "clang-format" },
         proto = { "clang-format" },
+        rust = { "rustfmt", lsp_format = "fallback" },
+      },
+      formatters = {
+        rustfmt = {
+          -- pick the edition up from Cargo.toml instead of assuming 2021
+          options = { default_edition = "2024" },
+        },
       },
     },
   },

@@ -25,11 +25,25 @@ map("n", "<leader>gd", "<cmd> Git diffthis<CR>")
 
 -- LSP
 map("n", "<leader>p", "<cmd> ClangdSwitchSourceHeader<CR>", { desc = "Change header/source" })
+map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol" })
 
 -- Formatting
-map("n", "=", function() require("conform").format({ async = true }) end, { desc = "Format" })
+local function format()
+  require("conform").format({ async = true, lsp_format = "fallback" }, function(err)
+    if err then
+      vim.notify(err, vim.log.levels.WARN, { title = "Format" })
+    end
+  end)
+end
+
+map("n", "=", format, { desc = "Format" })
+map("n", "<leader>=", format, { desc = "Format" })
 map("v", "=", function()
-  require("conform").format({ async = true })
+  format()
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
+end, { desc = "Format" })
+map("v", "<leader>=", function()
+  format()
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
 end, { desc = "Format" })
 
