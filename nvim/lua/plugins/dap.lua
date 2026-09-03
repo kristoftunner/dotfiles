@@ -1,3 +1,55 @@
+-- Build with cargo and return the executables it produced.
+-- `args` selects what gets built, e.g. { "build", "--bins" } or { "test", "--no-run" }.
+local function cargo_artifacts(args, kind)
+  local cmd = vim.list_extend({ "cargo" }, args)
+  vim.list_extend(cmd, { "--message-format=json" })
+
+  vim.notify("Running: " .. table.concat(cmd, " "), vim.log.levels.INFO, { title = "cargo" })
+  local lines = vim.fn.systemlist(cmd)
+  if vim.v.shell_error ~= 0 then
+    vim.notify(table.concat(lines, "\n"), vim.log.levels.ERROR, { title = "cargo build failed" })
+    return {}
+  end
+
+  local exes = {}
+  for _, line in ipairs(lines) do
+    local ok, msg = pcall(vim.json.decode, line)
+    if ok and type(msg) == "table" and msg.reason == "compiler-artifact" and msg.executable then
+      if not kind or vim.tbl_contains(msg.target.kind or {}, kind) then
+        table.insert(exes, { path = msg.executable, name = msg.target.name })
+      end
+    end
+  end
+  return exes
+end
+
+-- nvim-dap resolves configs inside a coroutine, so we can block on vim.ui.select.
+local function pick(items, prompt)
+  if #items == 0 then
+    return nil
+  end
+  if #items == 1 then
+    return items[1].path
+  end
+
+  local co = coroutine.running()
+  vim.ui.select(items, {
+    prompt = prompt,
+    format_item = function(item)
+      return item.name .. "  (" .. vim.fn.fnamemodify(item.path, ":~:.") .. ")"
+    end,
+  }, function(choice)
+    coroutine.resume(co, choice and choice.path or nil)
+  end)
+  return coroutine.yield()
+end
+
+local function cargo_target(args, kind, prompt)
+  return function()
+    return pick(cargo_artifacts(args, kind), prompt)
+  end
+end
+
 return {
   { "mfussenegger/nvim-dap" },
   {
@@ -47,7 +99,61 @@ return {
         },
       }
       dap.configurations.c = dap.configurations.cpp
-      dap.configurations.rust = dap.configurations.cpp
+
+      -- Rust gets its own configs: cargo does the build and hands us the exact
+      -- binary, and sourceLanguages turns on codelldb's Rust data formatters so
+      -- Vec/String/HashMap/Option render as values instead of raw structs.
+      local rust_common = {
+        type = "codelldb",
+        request = "launch",
+        cwd = "${workspaceFolder}",
+        stopOnEntry = false,
+        args = {},
+        sourceLanguages = { "rust" },
+      }
+
+      local function rust_config(overrides)
+        return vim.tbl_extend("force", vim.deepcopy(rust_common), overrides)
+      end
+
+      dap.configurations.rust = {
+        rust_config({
+          name = "Debug binary (cargo build)",
+          program = cargo_target({ "build", "--bins" }, "bin", "Select binary to debug"),
+        }),
+        rust_config({
+          name = "Debug binary with args (cargo build)",
+          program = cargo_target({ "build", "--bins" }, "bin", "Select binary to debug"),
+          args = function()
+            local input = vim.fn.input("Program args: ")
+            return vim.split(input, " +", { trimempty = true })
+          end,
+        }),
+        rust_config({
+          name = "Debug unit tests (cargo test --no-run)",
+          program = cargo_target({ "test", "--no-run" }, nil, "Select test binary to debug"),
+          -- Test harnesses swallow output unless you ask them not to.
+          args = { "--nocapture" },
+        }),
+        rust_config({
+          name = "Debug example (cargo build --examples)",
+          program = cargo_target({ "build", "--examples" }, "example", "Select example to debug"),
+        }),
+        rust_config({
+          name = "Launch (pick executable manually)",
+          program = function()
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+          end,
+        }),
+        {
+          name = "Attach to process",
+          type = "codelldb",
+          request = "attach",
+          pid = require("dap.utils").pick_process,
+          cwd = "${workspaceFolder}",
+          sourceLanguages = { "rust" },
+        },
+      }
 
       dapui.setup()
       require("nvim-dap-virtual-text").setup()
