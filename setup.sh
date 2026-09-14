@@ -1,4 +1,5 @@
 script_dir="$(dirname "$0")"
+failed_installs=""
 
 echo "Installing fzf"
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
@@ -45,7 +46,15 @@ if ! command -v cargo >/dev/null 2>&1; then
   exit 1
 fi
 
-cargo install --force --git https://github.com/sxyazi/yazi.git --tag v26.1.4 yazi-build
+# `yazi-build` normally installs yazi-fm/yazi-cli via a nested `cargo install`
+# whose output goes straight to the tty and whose exit status is never checked,
+# so it silently no-ops when run non-interactively (e.g. from this script).
+# Set YAZI_CRATE_BUILD and install yazi-fm/yazi-cli directly instead.
+YAZI_CRATE_BUILD=1 cargo install --force --locked --git https://github.com/sxyazi/yazi.git --tag v26.1.4 yazi-fm yazi-cli
+if ! command -v yazi >/dev/null 2>&1; then
+  echo "Failed to install yazi"
+  failed_installs="$failed_installs yazi"
+fi
 
 mkdir ~/.config/yazi
 git clone https://github.com/yazi-rs/flavors.git ~/.config/yazi/flavors
@@ -94,4 +103,8 @@ fi
 if ! rtk init -g; then
   echo "Failed to initialize rtk"
   exit 1
+fi
+
+if [ -n "$failed_installs" ]; then
+  echo "The following installs failed:$failed_installs"
 fi
