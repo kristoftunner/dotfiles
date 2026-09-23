@@ -22,6 +22,10 @@ cp -r $script_dir/nvim ~/.config/nvim
 echo "Installing vimrc"
 cp $script_dir/.vimrc ~/.vimrc
 
+echo "Installing gdb config"
+cp $script_dir/.gdbinit ~/.gdbinit
+cp $script_dir/.inputrc ~/.inputrc
+
 echo "Installing tmux"
 sudo apt update
 sudo apt install install tmux fd-find libfuse2 xclip xsel fd-find ripgrep -y

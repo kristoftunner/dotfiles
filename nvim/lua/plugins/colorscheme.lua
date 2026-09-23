@@ -1,21 +1,17 @@
 return {
-  { "ellisonleao/gruvbox.nvim", priority = 1000, opts = { contrast = "hard" } },
-  { "LazyVim/LazyVim", opts = { colorscheme = "gruvbox" } },
-  --{
-  --  "catppuccin/nvim",
-  --  name = "catppuccin",
-  --  priority = 1000,
-  --  dependencies = {
-  --    "LazyVim/LazyVim",
-  --  },
-  --  opts = {
-  --    transparent_background = true,
-  --    flavour = "mocha",
-  --    dim_inactive = {
-  --      enabled = false,
-  --      shade = "dark",
-  --      percentage = 0.15,
-  --    },
-  --  },
-  --},
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    priority = 1000,
+    opts = {
+      variant = "moon", -- 'main' (darkest), 'moon', 'dawn' (light)
+      dark_variant = "moon",
+      styles = {
+        transparency = false,
+      },
+    },
+  },
+  -- kept around so <leader>uC can still flip back
+  { "ellisonleao/gruvbox.nvim", lazy = true, opts = { contrast = "hard" } },
+  { "LazyVim/LazyVim", opts = { colorscheme = "rose-pine-moon" } },
 }
