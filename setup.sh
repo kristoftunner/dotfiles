@@ -99,6 +99,29 @@ if [[ -d ~/.claude ]]; then
 fi
 cp $script_dir/claude/* ~/.claude/
 
+echo "Installing go"
+GO_VERSION="go1.23.4"
+sudo rm -rf /usr/local/go
+curl -sSfL "https://go.dev/dl/${GO_VERSION}.linux-amd64.tar.gz" -o /tmp/go.tar.gz
+sudo tar -C /usr/local -xzf /tmp/go.tar.gz
+rm -f /tmp/go.tar.gz
+echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
+if ! /usr/local/go/bin/go version >/dev/null 2>&1; then
+  echo "Failed to install go"
+  failed_installs="$failed_installs go"
+fi
+
+echo "Installing lazygit"
+LAZYGIT_VERSION="0.44.1"
+curl -sSfL -o /tmp/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+tar -xf /tmp/lazygit.tar.gz -C /tmp lazygit
+sudo install /tmp/lazygit -D -t /usr/local/bin/
+rm -f /tmp/lazygit.tar.gz /tmp/lazygit
+if ! command -v lazygit >/dev/null 2>&1; then
+  echo "Failed to install lazygit"
+  failed_installs="$failed_installs lazygit"
+fi
+
 echo "Installing rtk"
 if ! curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh; then
   echo "Failed to install rtk"
