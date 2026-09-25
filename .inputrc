@@ -1,0 +1,62 @@
+# Keep the distro defaults (home/end/delete, page-up history search, ...).
+# Readline skips /etc/inputrc entirely once ~/.inputrc exists, so re-include it.
+$include /etc/inputrc
+
+# ===========================================================================
+# gdb debugger keys
+#
+# These are readline macros: the key clears the input line (\C-e\C-u), types
+# a command and presses Return.  They only fire at the (gdb) prompt -- to
+# interrupt a *running* inferior use Ctrl-C, which is a signal, not a key.
+#
+# Alt-<key> is used rather than function keys on purpose: in TUI mode gdb
+# reads the keyboard through curses, which swallows F1-F12 (they arrive as
+# KEY_F(n) keycodes and never reach readline).  Alt/Ctrl chords get through.
+# ===========================================================================
+$if gdb
+
+# --- execution -------------------------------------------------------------
+# Alt-n  step over
+"\en": "\C-e\C-unext\n"
+# Alt-s  step into
+"\es": "\C-e\C-ustep\n"
+# Alt-o  step out (run until the current function returns)
+"\eo": "\C-e\C-ufinish\n"
+# Alt-c  continue
+"\ec": "\C-e\C-ucontinue\n"
+# Alt-r  (re)start the program
+"\er": "\C-e\C-urun\n"
+# Alt-k  stop debugging: kill the inferior, keep gdb open
+"\ek": "\C-e\C-ukill\n"
+# Alt-i / Alt-a  single machine instruction, over / into
+"\ea": "\C-e\C-unexti\n"
+"\ei": "\C-e\C-ustepi\n"
+
+# --- stack -----------------------------------------------------------------
+# Alt-Up / Alt-Down  move one frame out / in
+"\e\e[A": "\C-e\C-uup\n"
+"\e\e[B": "\C-e\C-udown\n"
+# Alt-t  backtrace
+"\et": "\C-e\C-uwhere\n"
+# Alt-v  locals and args of the current frame
+"\ev": "\C-e\C-uinfo locals\n"
+
+# --- TUI windows -----------------------------------------------------------
+# Alt-w  focus the next window   (Ctrl-X O is the built-in equivalent)
+"\ew": "\C-e\C-ufocus next\n"
+# Alt-l  cycle layout: src -> asm -> split -> regs
+"\el": "\C-e\C-ulayout next\n"
+# Alt-g  redraw a garbled screen  (Ctrl-L is the built-in equivalent)
+"\eg": "\C-e\C-urefresh\n"
+
+# --- function keys ---------------------------------------------------------
+# Only reach gdb when the TUI is OFF (see the note above); harmless otherwise.
+# F5 continue, F6 finish, F7 step, F8 next, F9 kill, F10 next, F11 step
+"\e[15~": "\C-e\C-ucontinue\n"
+"\e[17~": "\C-e\C-ufinish\n"
+"\e[18~": "\C-e\C-ustep\n"
+"\e[19~": "\C-e\C-unext\n"
+"\e[20~": "\C-e\C-ukill\n"
+"\e[21~": "\C-e\C-unext\n"
+"\e[23~": "\C-e\C-ustep\n"
+$endif
