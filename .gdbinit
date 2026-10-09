@@ -43,43 +43,62 @@ set follow-fork-mode parent
 # ---------------------------------------------------------------------------
 
 # ---------------------------------------------------------------------------
-# TUI: source window on top, command window below
+# TUI: off by default, toggle with Ctrl-X A (Ctrl-L redraws if the program
+# output garbles it)
 # ---------------------------------------------------------------------------
 set tui border-kind acs
 set tui compact-source on
 
-# Only enable the TUI on a real terminal, so `gdb -batch ...` and piped
-# invocations keep working.
+# ---------------------------------------------------------------------------
+# Breakpoints per program: `sb` saves them, `lb` loads them, and they are
+# loaded automatically at the first prompt. Works for both `gdb <app>` and
+# `gdb --args <app> <args>`; files live in ~/.cache/gdb/breakpoints, keyed by
+# the program's absolute path.
+# ---------------------------------------------------------------------------
 python
 import os
-try:
-    # gdb replaces sys.stdout, whose isatty() always claims True, so ask the
-    # real file descriptor instead.
-    if os.isatty(1):
-        gdb.execute("tui enable")
-        gdb.execute("layout src")
-        gdb.execute("focus cmd")
-except gdb.error as e:
-    print("gdbinit: could not enable TUI: %s" % e)
-end
 
-# The TUI source window goes stale when the inferior writes to the terminal;
-# force a redraw after the commands that move the current line.
-define hook-next
-  refresh
-end
-define hook-step
-  refresh
-end
-define hook-finish
-  refresh
-end
-define hook-continue
-  refresh
-end
-define hook-up
-  refresh
-end
-define hook-down
-  refresh
+def _bp_file():
+    prog = gdb.current_progspace().filename
+    if not prog:
+        raise gdb.GdbError("no program loaded")
+    d = os.path.expanduser("~/.cache/gdb/breakpoints")
+    os.makedirs(d, exist_ok=True)
+    return os.path.join(d, os.path.abspath(prog).strip("/").replace("/", "%"))
+
+class SaveBreakpoints(gdb.Command):
+    """Save this program's breakpoints (loaded again on the next gdb start)."""
+    def __init__(self):
+        super().__init__("sb", gdb.COMMAND_BREAKPOINTS)
+    def invoke(self, arg, from_tty):
+        path = _bp_file()
+        if not gdb.breakpoints():
+            if os.path.exists(path):
+                os.remove(path)
+            print("No breakpoints; removed saved set.")
+            return
+        gdb.execute("save breakpoints " + path, to_string=True)
+        print("Saved %d breakpoint(s) to %s" % (len(gdb.breakpoints()), path))
+
+class LoadBreakpoints(gdb.Command):
+    """Load this program's saved breakpoints."""
+    def __init__(self):
+        super().__init__("lb", gdb.COMMAND_BREAKPOINTS)
+    def invoke(self, arg, from_tty):
+        path = _bp_file()
+        if not os.path.exists(path):
+            print("No saved breakpoints for this program.")
+            return
+        gdb.execute("source " + path, to_string=True)
+        print("Loaded %d breakpoint(s) from %s" % (len(gdb.breakpoints()), path))
+
+SaveBreakpoints()
+LoadBreakpoints()
+
+def _autoload_breakpoints():
+    gdb.events.before_prompt.disconnect(_autoload_breakpoints)
+    if gdb.current_progspace().filename and os.path.exists(_bp_file()):
+        gdb.execute("lb")
+
+gdb.events.before_prompt.connect(_autoload_breakpoints)
 end
