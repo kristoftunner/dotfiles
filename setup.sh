@@ -17,7 +17,7 @@ echo "removing neovim configs"
 rm -rf ~/.config/nvim
 rm -rf ~/.local/share/nvim
 mkdir ~/.config
-cp -r $script_dir/nvim ~/.config/nvim
+ln -s "$(realpath "$script_dir/nvim")" ~/.config/nvim
 
 echo "Installing vimrc"
 cp $script_dir/.vimrc ~/.vimrc

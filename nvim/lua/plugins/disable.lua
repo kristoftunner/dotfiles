@@ -7,4 +7,5 @@ return {
   },
   { "folke/ts-comments.nvim", enabled = false },
   { "windwp/nvim-ts-autotag", enabled = false },
+  { "folke/noice.nvim", enabled = false },
 }
