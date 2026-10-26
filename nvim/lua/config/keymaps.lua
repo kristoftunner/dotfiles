@@ -10,9 +10,8 @@ map("n", "N", "Nzzzv")
 
 map({ "n", "v" }, "<leader>y", [["+y]])
 map("n", "<leader>Y", [["+Y]])
-map({ "n", "v" }, "<leader>d", [["_d]])
+map({ "n", "v" }, "<leader>D", [["_d]], { desc = "Delete without yanking" })
 
-map({ "n", "v" }, "<leader>d", [["_d]])
 map('n', '<Tab>', ':bnext<CR>')
 map('n', '<S-Tab>', ':bprevious<CR>')
 map("t", "<Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
