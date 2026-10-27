@@ -28,7 +28,7 @@ cp $script_dir/.inputrc ~/.inputrc
 
 echo "Installing tmux"
 sudo apt update
-sudo apt install install tmux fd-find libfuse2 xclip xsel fd-find ripgrep -y
+sudo apt install install tmux fd-find libfuse2 xclip xsel fd-find ripgrep bvi -y
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 cp $script_dir/.tmux.conf ~/.tmux.conf
 
