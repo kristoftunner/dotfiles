@@ -58,6 +58,14 @@ return {
   },
   { "jay-babu/mason-nvim-dap.nvim" },
   { "theHamsta/nvim-dap-virtual-text" },
+  {
+    "mfussenegger/nvim-dap-python",
+    keys = {
+      { "<leader>dt", function() require("dap-python").test_method() end, ft = "python", desc = "Debug: Test Method" },
+      { "<leader>dT", function() require("dap-python").test_class() end, ft = "python", desc = "Debug: Test Class" },
+      { "<leader>ds", function() require("dap-python").debug_selection() end, ft = "python", mode = "v", desc = "Debug: Selection" },
+    },
+  },
 
   {
     "mfussenegger/nvim-dap",
@@ -66,13 +74,14 @@ return {
       "jay-babu/mason-nvim-dap.nvim",
       "theHamsta/nvim-dap-virtual-text",
       "nvim-neotest/nvim-nio",
+      "mfussenegger/nvim-dap-python",
     },
     config = function()
       local dap = require("dap")
       local dapui = require("dapui")
 
       require("mason-nvim-dap").setup({
-        ensure_installed = { "codelldb" },
+        ensure_installed = { "codelldb", "python" },
         automatic_installation = true,
       })
 
@@ -152,6 +161,69 @@ return {
           pid = require("dap.utils").pick_process,
           cwd = "${workspaceFolder}",
           sourceLanguages = { "rust" },
+        },
+      }
+
+      -- Python: debugpy runs from Mason's own venv, while the program runs with the
+      -- project's interpreter ($VIRTUAL_ENV, else ./.venv), so imports resolve the
+      -- same way as `python file.py` in the activated shell.
+      local dap_python = require("dap-python")
+      dap_python.setup(vim.fn.stdpath("data") .. "/mason/bin/debugpy-adapter", { include_configs = false })
+      dap_python.test_runner = "pytest"
+
+      local python_common = {
+        type = "python",
+        request = "launch",
+        cwd = "${workspaceFolder}",
+        -- runs in the dap-ui console, so input() works
+        console = "integratedTerminal",
+        justMyCode = true,
+      }
+
+      local function python_config(overrides)
+        return vim.tbl_extend("force", vim.deepcopy(python_common), overrides)
+      end
+
+      dap.configurations.python = {
+        python_config({
+          name = "Debug file",
+          program = "${file}",
+        }),
+        python_config({
+          name = "Debug file with args",
+          program = "${file}",
+          args = function()
+            return require("dap.utils").splitstr(vim.fn.input("Program args: "))
+          end,
+        }),
+        python_config({
+          name = "Debug file (step into libraries)",
+          program = "${file}",
+          justMyCode = false,
+        }),
+        python_config({
+          name = "Debug module (python -m)",
+          module = function()
+            -- default to the current file as a dotted module path
+            return vim.fn.input("Module: ", (vim.fn.expand("%:.:r"):gsub("/", ".")))
+          end,
+        }),
+        python_config({
+          name = "Debug pytest (current file)",
+          module = "pytest",
+          args = { "${file}", "-x" },
+        }),
+        -- ptrace_scope=1 on this machine, so attaching by PID is not possible.
+        -- Start the program with `python -m debugpy --listen 5678 --wait-for-client file.py`.
+        {
+          name = "Attach (debugpy --listen)",
+          type = "python",
+          request = "attach",
+          connect = function()
+            local port = tonumber(vim.fn.input("Port [5678]: ")) or 5678
+            return { host = "127.0.0.1", port = port }
+          end,
+          justMyCode = true,
         },
       }
 
