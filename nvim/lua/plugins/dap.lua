@@ -227,41 +227,43 @@ return {
         },
       }
 
-      dapui.setup()
+      -- Layout lives here: a bare dapui.setup() would reset it to the defaults.
+      -- Element ids are scopes/breakpoints/stacks/watches/repl/console.
+      dapui.setup({
+        layouts = {
+          {
+            elements = {
+              { id = "scopes",      size = 0.45 },
+              { id = "breakpoints", size = 0.20 },
+              { id = "stacks",      size = 0.20 },
+              { id = "watches",     size = 0.15 },
+            },
+            size     = 45,
+            position = "left",
+          },
+          {
+            elements = {
+              { id = "repl",    size = 0.5 },
+              { id = "console", size = 0.5 },
+            },
+            size     = 12,
+            position = "bottom",
+          },
+        },
+      })
       require("nvim-dap-virtual-text").setup()
 
       dap.listeners.after.event_initialized["dapui_config"] = function()
         dapui.open()
       end
-      dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close()
-      end
-      dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.close()
+      -- Close the UI once the last session is gone. terminated/exited alone are
+      -- not enough: codelldb doesn't always send them when the session is
+      -- killed with <leader>dq, which left the panels open.
+      dap.listeners.on_session["dapui_config"] = function(_, new)
+        if not new then
+          dapui.close()
+        end
       end
     end,
-  },
-  {
-    "rcarriga/nvim-dap-ui",
-    opts = {
-      layouts = {
-        {
-          elements = {
-            { id = "repl",        size = 0.25 },
-            { id = "variables",   size = 0.50 },
-            { id = "breakpoints", size = 0.25 },
-          },
-          size     = 40,
-          position = "left",
-        },
-        {
-          elements = {
-            { id = "console", size = 1.0 },
-          },
-          size     = 0.30,
-          position = "bottom",
-        },
-      },
-    },
   },
 }
